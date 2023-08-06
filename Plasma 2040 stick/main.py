@@ -4,6 +4,7 @@ import uasyncio
 import urequests
 import time
 import plasma
+import math
 from plasma import plasma_stick
 from machine import Pin
 
@@ -17,7 +18,8 @@ UPDATE_INTERVAL = 120  # refresh interval in secs. Be nice to free APIs!
 
 # Set how many LEDs you have
 NUM_LEDS = 50
-
+# Set the brightness of the LEDs when pulled from cheerlights API.
+BRIGHTNESS_MULTI = 0.45
 
 def status_handler(mode, status, ip):    
     # reports wifi connection status
@@ -25,7 +27,12 @@ def status_handler(mode, status, ip):
     print('Connecting to wifi...')
     # flash while connecting
     for i in range(NUM_LEDS):
-        led_strip.set_rgb(i, 127, 127, 127)
+        led_strip.set_rgb(i,
+            math.floor(255 * BRIGHTNESS_MULTI),
+            math.floor(255 * BRIGHTNESS_MULTI),
+            math.floor(255 * BRIGHTNESS_MULTI),
+)
+        
         time.sleep(0.02)
     for i in range(NUM_LEDS):
         led_strip.set_rgb(i, 0, 0, 0)
@@ -109,9 +116,15 @@ while True:
     # and convert it to RGB
     r, g, b = hex_to_rgb(hex)
 
-    # light up the LEDs
+    # light up the LEDs using a multiplyer so it is not full brightness
     for i in range(NUM_LEDS):
-        led_strip.set_rgb(i, r, g, b)
+        led_strip.set_rgb(i,
+        math.floor(r * BRIGHTNESS_MULTI),
+        math.floor(g * BRIGHTNESS_MULTI),
+        math.floor(b * BRIGHTNESS_MULTI),
+)
+        
+        
     print(f'LEDs set to {hex}')
 
     # sleep
