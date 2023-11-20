@@ -15,9 +15,6 @@ SPEED = 20
 # How many times the LEDs will be updated per second
 UPDATES = 60
 
-#brightness - Controls the brightness of the LEDs 0.1 to 1.0
-brightness = 1.0
-
 # WS2812 / NeoPixel™ LEDs
 led_strip = plasma.WS2812(NUM_LEDS, 0, 0, plasma_stick.DAT, color_order=plasma.COLOR_ORDER_RGB)
 
@@ -34,6 +31,6 @@ while True:
 
     for i in range(NUM_LEDS):
         hue = float(i) / NUM_LEDS
-        led_strip.set_hsv(i, hue + offset, 1.0, brightness)
+        led_strip.set_hsv(i, hue + offset, 1.0, 1.0)
 
     time.sleep(1.0 / UPDATES)
